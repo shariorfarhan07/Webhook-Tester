@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webhook Tester</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Webhook Tester</h1>
+
+        <!-- Webhook URL Section -->
+        <div class="info-container">
+            <h2>Webhook URL</h2>
+            <div class="webhook-url">
+                <code id="webhook-url">http://localhost:8000/webhook</code>
+                <button id="copy-url">Copy</button>
+            </div>
+            <p>Send POST requests to this URL and see the webhook data below</p>
+            <div class="connection-status">
+                WebSocket: <span id="ws-status" class="disconnected">Disconnected</span>
+            </div>
+            <div class="buttons">
+                <button id="clear-btn" class="danger">Clear All</button>
+            </div>
+        </div>
+
+<!-- Updated Advanced Features Panel -->
+<div class="advanced-features">
+    <button class="accordion">⚙️ Advanced Features</button>
+    <div class="panel">
+        <!-- Delay Configuration -->
+        <div class="feature-section">
+            <h3>Set Webhook Response Delay</h3>
+            <form id="delay-form">
+                <label for="delay-input">Enter delay (milliseconds):</label>
+                <input type="number" id="delay-input" name="delay" min="0" required>
+                <button type="submit">Set Delay</button>
+            </form>
+            <p id="current-delay">Current Delay: <span>0</span> ms</p>
+        </div>
+
+        <!-- Status Code Configuration -->
+        <div class="feature-section">
+            <h3>Set Response Status Code</h3>
+            <form id="status-code-form">
+                <label for="status-code-input">HTTP Status Code:</label>
+                <select id="status-code-input" name="status_code" required>
+                    <option value="100">100 - Continue</option>
+                    <option value="200">200 - OK</option>
+                    <option value="201">201 - Created</option>
+                    <option value="202">202 - Accepted</option>
+                    <option value="204">204 - No Content</option>
+                    <option value="301">301 - Moved Permanently</option>
+                    <option value="302">302 - Found</option>
+                    <option value="304">304 - Not Modified</option>
+                    <option value="400">400 - Bad Request</option>
+                    <option value="401">401 - Unauthorized</option>
+                    <option value="403">403 - Forbidden</option>
+                    <option value="404">404 - Not Found</option>
+                    <option value="408">408 - Request Timeout</option>
+                    <option value="409">409 - Conflict</option>
+                    <option value="410">410 - Gone</option>
+                    <option value="422">422 - Unprocessable Entity</option>
+                    <option value="429">429 - Too Many Requests</option>
+                    <option value="500">500 - Internal Server Error</option>
+                    <option value="502">502 - Bad Gateway</option>
+                    <option value="503">503 - Service Unavailable</option>
+                    <option value="504">504 - Gateway Timeout</option>
+                </select>
+                <button type="submit">Set Status Code</button>
+            </form>
+            <p id="current-status-code">Current Status Code: <span>200</span></p>
+        </div>
+
+        <!-- Custom Response Configuration -->
+        <div class="feature-section">
+            <h3>Set Custom Response</h3>
+            <form id="response-form">
+                <label for="response-input">Custom JSON Response:</label>
+                <textarea id="response-input" name="response" rows="5" placeholder='{"message": "Success"}' required></textarea>
+                <button type="submit">Set Response</button>
+            </form>
+            <p id="current-response">Current Response: <span>{"message": "Success"}</span></p>
+        </div>
+    </div>
+</div>
+
+
+        <!-- Webhook Responses Section -->
+        <div class="webhooks-container">
+            <h2>Received Webhooks</h2>
+            <div id="webhooks-list">
+                {% if webhooks|length == 0 %}
+                <div class="no-webhooks">
+                    <p>No webhooks received yet. Send a POST request to the webhook URL above.</p>
+                </div>
+                {% else %}
+                    {% for webhook in webhooks|reverse %}
+                    <div class="webhook-item">
+                        <div class="webhook-header">
+                            <span class="webhook-id">#{{ webhook.id }}</span>
+                            <span class="webhook-timestamp">{{ webhook.timestamp }}</span>
+                            <span class="webhook-content-type">{{ webhook.content_type }}</span>
+                        </div>
+                        <div class="webhook-details">
+                            <div class="webhook-section">
+                                <h3>Headers</h3>
+                                <pre class="json"><code>{{ webhook.headers|tojson(indent=2) }}</code></pre>
+                            </div>
+                            <div class="webhook-section">
+                                <h3>Payload</h3>
+                                <pre class="json"><code>{{ webhook.payload|tojson(indent=2) }}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
