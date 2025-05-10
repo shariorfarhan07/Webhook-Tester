@@ -91,7 +91,7 @@ http://localhost:8000/webhook
   - Send status code.
 - response will be visible realtime since I am using web socket.
 
-![img.png](img.png)
+![img.png](utils/img.png)
 
 ### Advance features include 
-![img_1.png](img_1.png)
+![img_1.png](utils/img_1.png)
