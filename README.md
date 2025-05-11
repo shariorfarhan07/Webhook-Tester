@@ -1,6 +1,12 @@
-# Webhook tester FastAPI Application Setup Guide
+# Webhook Tester
 
-This guide covers how to run my webhook testing  application directly on docker and also local environment.
+Easily test callback requests from any application with customizable request bodies, HTTP status codes, and response delays.
+
+During development, it's often necessary to send API requests to third-party services. This tool helps you simulate and verify those interactions, enabling you to thoroughly test your features before going live.
+
+This application was initially developed to meet my own development needs. Additional features may be added over time, and once a comprehensive set of functionalities is compiled, I plan to convert it into a full-featured desktop application.
+## Webhook tester FastAPI Application Setup Guide
+This guide covers how to run my webhook testing  application directly on docker and local environment.
 ## Option 1: Running with Docker
 
 ### Steps
